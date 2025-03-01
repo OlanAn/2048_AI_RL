@@ -58,4 +58,12 @@ while running and not done:
     pygame.display.flip()
     clock.tick(1)  # Réduit la vitesse pour voir l'IA jouer lentement
 
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    draw_board(screen, env.grid)  # Dessine la grille finale
+    pygame.display.flip() 
+
 pygame.quit()
