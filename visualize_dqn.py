@@ -1,5 +1,5 @@
 import pygame
-from stable_baselines3 import PPO
+from stable_baselines3 import DQN
 from game_2048_env import Game2048Env
 
 # Initialiser Pygame
@@ -18,7 +18,7 @@ FONT = pygame.font.SysFont('arial', 40)
 
 # Charger le modèle et l'environnement
 env = Game2048Env()
-model = PPO.load("ppo_2048")
+model = DQN.load("dqn_2048_cnn.zip")
 
 # Initialiser Pygame
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
