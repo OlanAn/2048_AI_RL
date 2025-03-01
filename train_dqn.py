@@ -2,6 +2,7 @@ import gym
 import torch
 from stable_baselines3 import DQN
 from stable_baselines3 import PPO
+from stable_baselines3 import A2C
 from stable_baselines3.common.logger import configure
 from game_2048_env import Game2048Env  # Notre environnement Gym
 import numpy as np
@@ -25,26 +26,23 @@ def evaluate_model(env, model, episodes):
     print(f"Score sur {episodes} parties, Meilleur score : {max(scores)}, Score moyen : {np.mean(scores)}, Médiane : {np.median(scores)}")
     return avg_score
 
-policy_kwargs = dict(net_arch=[1024, 1024, 512])
 
-# Créer le modèle PPO
-model = PPO(
-    "MlpPolicy", 
-    env, 
-    policy_kwargs=policy_kwargs,
-    verbose=1,
-    learning_rate=0.00005,
-    n_steps=4096,         # Nombre d'étapes collectées avant une mise à jour
-    batch_size=128,   
-    n_epochs=10,          # Nombre d'époques pour chaque mise à jour
-    ent_coef=0.01,        # Encourager l'exploration par une régularisation de l'entropie
-    clip_range=0.2,       # Taille des mini-batchs
-    tensorboard_log="./tensorboard_ppo/"
-)
+model = DQN("MlpPolicy", 
+            env, 
+            policy_kwargs=dict(net_arch=[1024, 1024, 512]),
+            verbose=1,
+            learning_rate=0.00005,
+            batch_size=64,  # ✅ Meilleure généralisation
+            buffer_size=100000,  # ✅ Meilleure mémoire
+            exploration_fraction=0.99,  # ✅ Réduit l'exploration trop longue
+            exploration_final_eps=0.20,
+            tensorboard_log="./tensorboard_logs/",
+            device="cuda")
+
 
 
 # Entraîner l’agent
-TIMESTEPS = 100000  # Ajuste selon la puissance de ton PC
+TIMESTEPS = 1000000 # Ajuste selon la puissance de ton PC
 
 log_dir = "./tensorboard_logs/"
 new_logger = configure(log_dir, ["stdout", "tensorboard"])
