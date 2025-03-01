@@ -33,16 +33,16 @@ model = DQN(
     env,
     policy_kwargs=policy_kwargs,
     verbose=1,
-    learning_rate=0.00005,
+    learning_rate=0.00001,
     batch_size=128,
-    buffer_size=50000,
-    exploration_fraction=0.4,
+    buffer_size=100000,
+    exploration_fraction=0.5,
     exploration_final_eps=0.20,
     tensorboard_log="./tensorboard_dqn/",
     device="cuda"
 )
 
-TIMESTEPS = 200000  # Ajuste selon tes ressources
+TIMESTEPS = 5000000  # Ajuste selon tes ressources
 
 log_dir = "./tensorboard_dqn/"
 new_logger = configure(log_dir, ["stdout", "tensorboard"])

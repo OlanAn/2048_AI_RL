@@ -30,7 +30,7 @@ tile_order = [16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
 results = {tile: (tile_counts[tile] / n_games) * 100 for tile in tile_order}
 
 # Écriture des résultats dans un fichier
-with open("result.txt", "w") as f:
+with open("result5M.txt", "w") as f:
     f.write("Max Tile | DQN_NUL (%)\n")
     f.write("----------------------\n")
     for tile in tile_order:
